@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
+import UserInput from './BaseSyntaxAssignment/UserInput/UserInput';
+import UserOutput from './BaseSyntaxAssignment/UserOutput/UserOutput';
 
 class App extends Component {
   state = {
@@ -10,8 +12,13 @@ class App extends Component {
       { name: 'Manu', age: 29 },
       { name: 'Stephanie', age: 26 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    useroutputs: [
+      { userName: 'Matthew' },
+      { userName: 'Parastou' }
+    ]
   }
+
   switchNameHandler = (newName) => {
     //console.log('Was clicked!');
     //DON'T DO THID: this.state.people[0].name = 'Maximilian';
@@ -31,6 +38,16 @@ class App extends Component {
         { name: 'Stephanie', age: Math.floor(Math.random() * 30) }
       ]
     })
+  }
+
+  userNameChangeHandler = (event) => {
+    this.setState({
+      useroutputs: [
+        { userName: event.target.value},
+        { userName: 'Parastou'}
+      ]
+    })
+
   }
   render() {
     const style = {
@@ -60,7 +77,16 @@ class App extends Component {
         <Person
           name={this.state.people[2].name}
           age={this.state.people[2].age} />
-
+        <UserInput
+          userName={this.state.useroutputs[0].userName}
+          changed={this.userNameChangeHandler}
+        />
+        <UserOutput
+          userName={this.state.useroutputs[0].userName}
+        />
+        <UserOutput
+          userName={this.state.useroutputs[1].userName}
+        />
       </div>
     );
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'I\'m React App!'));
