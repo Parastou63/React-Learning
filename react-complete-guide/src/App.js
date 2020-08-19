@@ -4,6 +4,8 @@ import './App.css';
 import Person from './Person/Person';
 import UserInput from './BaseSyntaxAssignment/UserInput/UserInput';
 import UserOutput from './BaseSyntaxAssignment/UserOutput/UserOutput';
+import Validation from './ListConditionalAssignment/Validation/Validation';
+import Char from './ListConditionalAssignment/Char/Char';
 
 class App extends Component {
   state = {
@@ -17,6 +19,7 @@ class App extends Component {
       { userName: 'Matthew' },
       { userName: 'Parastou' }
     ],
+    textContent: 'Jooj',
     showPeople: false
   }
 
@@ -78,6 +81,18 @@ class App extends Component {
     this.setState({ people: people });
   }
 
+  changeTextHandler = (event) => {
+    this.setState({
+      textContent: event.target.value
+    });
+  }
+
+  deleteCharHandler = (charIndex) => {
+    const char = this.state.textContent.split('');
+    char.splice(charIndex, 1);
+    this.setState({ textContent: char.join('')});
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -88,6 +103,9 @@ class App extends Component {
       margin: '8px'
     };
 
+    const textStyle = {
+      width: '300px'
+    }
     let people = null;
 
     if (this.state.showPeople) {
@@ -102,6 +120,7 @@ class App extends Component {
               changed={(event) => this.nameChangedHandler(event, person.id)}
             />
           })}
+
           {/* <Person
             name={this.state.people[0].name}
             age={this.state.people[0].age} />
@@ -117,6 +136,27 @@ class App extends Component {
         </div>
       );
     }
+
+    let characters = null;
+
+    if (this.state.textContent) {
+      characters = (
+        <div>
+          {
+            this.state.textContent.split('').map((letter, index) => {
+              return <Char
+                click={() => this.deleteCharHandler(index)}
+                char={letter}
+                key={index}
+                textLength={this.state.textContent.length}
+              />
+            })
+          }
+        </div>
+      );
+
+    }
+
     return (
       <div className="App">
         <h1>Hi, I am a React App.🎈</h1>
@@ -136,9 +176,15 @@ class App extends Component {
         <UserOutput
           userName={this.state.useroutputs[1].userName}
         />
+        <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
+        <Validation
+          textLength={this.state.textContent.length}
+        />
+        {characters}
       </div>
     );
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'I\'m React App!'));
+
   }
 }
 
