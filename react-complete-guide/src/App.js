@@ -6,7 +6,7 @@ import UserInput from './BaseSyntaxAssignment/UserInput/UserInput';
 import UserOutput from './BaseSyntaxAssignment/UserOutput/UserOutput';
 import Validation from './ListConditionalAssignment/Validation/Validation';
 import Char from './ListConditionalAssignment/Char/Char';
-
+import Radium, { StyleRoot } from 'radium';
 class App extends Component {
   state = {
     people: [
@@ -90,17 +90,22 @@ class App extends Component {
   deleteCharHandler = (charIndex) => {
     const char = this.state.textContent.split('');
     char.splice(charIndex, 1);
-    this.setState({ textContent: char.join('')});
+    this.setState({ textContent: char.join('') });
   }
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
-      border: '1x solid blue',
+      border: '1px solid green',
       padding: '8px',
       cursor: 'pointer',
-      margin: '8px'
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black',
+      },
+      margin: '8px',
     };
 
     const textStyle = {
@@ -135,6 +140,20 @@ class App extends Component {
             age={this.state.people[2].age} /> */}
         </div>
       );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black',
+      }
+    }
+
+    //let classes = ['red', 'bold'].join(' ');
+    const classes = [];
+    if (this.state.people.length <= 2) {
+      classes.push('red'); // classes = ['red']
+    }
+    if (this.state.people.length <= 1) {
+      classes.push('bold'); // classes = ['red', 'bold']
     }
 
     let characters = null;
@@ -158,34 +177,36 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I am a React App.🎈</h1>
-        <p>This is really working!</p>
-        {/* <button style={style}
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I am a React App.🎈</h1>
+          <p className={classes.join(' ')}>This is really working!</p>
+          {/* <button style={style}
           onClick={() => { this.switchNameHandler('Maximilian!!') }}>Switch Name</button> */}
-        <button style={style}
-          onClick={this.togglePeopleHandler}>Toggle People</button>
-        {people}
-        <UserInput
-          userName={this.state.useroutputs[0].userName}
-          changed={this.userNameChangeHandler}
-        />
-        <UserOutput
-          userName={this.state.useroutputs[0].userName}
-        />
-        <UserOutput
-          userName={this.state.useroutputs[1].userName}
-        />
-        <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
-        <Validation
-          textLength={this.state.textContent.length}
-        />
-        {characters}
-      </div>
+          <button style={style}
+            onClick={this.togglePeopleHandler}>Toggle People</button>
+          {people}
+          <UserInput
+            userName={this.state.useroutputs[0].userName}
+            changed={this.userNameChangeHandler}
+          />
+          <UserOutput
+            userName={this.state.useroutputs[0].userName}
+          />
+          <UserOutput
+            userName={this.state.useroutputs[1].userName}
+          />
+          <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
+          <Validation
+            textLength={this.state.textContent.length}
+          />
+          {characters}
+        </div>
+      </StyleRoot>
     );
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'I\'m React App!'));
 
   }
 }
 
-export default App;
+export default Radium(App);
