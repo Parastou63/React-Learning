@@ -6,7 +6,23 @@ import UserInput from './BaseSyntaxAssignment/UserInput/UserInput';
 import UserOutput from './BaseSyntaxAssignment/UserOutput/UserOutput';
 import Validation from './ListConditionalAssignment/Validation/Validation';
 import Char from './ListConditionalAssignment/Char/Char';
-import Radium, { StyleRoot } from 'radium';
+//import Radium, { StyleRoot } from 'radium';
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+background-color: ${props => props.alt ? 'red' : 'green'};
+color: white;
+font: inherit;
+border: 1px solid green;
+padding: 8px;
+margin: 8px;
+cursor: pointer;
+&:hover {
+  background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+  color: black;
+};
+`;
+
 class App extends Component {
   state = {
     people: [
@@ -94,19 +110,19 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid green',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black',
-      },
-      margin: '8px',
-    };
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid green',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    //   ':hover': {
+    //     backgroundColor: 'lightgreen',
+    //     color: 'black'
+    //   },
+    //   margin: '8px'
+    // };
 
     const textStyle = {
       width: '300px'
@@ -140,11 +156,11 @@ class App extends Component {
             age={this.state.people[2].age} /> */}
         </div>
       );
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black',
-      }
+      // style.backgroundColor = 'red';
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black',
+      // }
     }
 
     //let classes = ['red', 'bold'].join(' ');
@@ -177,36 +193,38 @@ class App extends Component {
     }
 
     return (
-      <StyleRoot>
-        <div className="App">
-          <h1>Hi, I am a React App.🎈</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          {/* <button style={style}
+      // <StyleRoot>
+      <div className="App">
+        <h1>Hi, I am a React App.🎈</h1>
+        <p className={classes.join(' ')}>This is really working!</p>
+        {/* <button style={style}
           onClick={() => { this.switchNameHandler('Maximilian!!') }}>Switch Name</button> */}
-          <button style={style}
-            onClick={this.togglePeopleHandler}>Toggle People</button>
-          {people}
-          <UserInput
-            userName={this.state.useroutputs[0].userName}
-            changed={this.userNameChangeHandler}
-          />
-          <UserOutput
-            userName={this.state.useroutputs[0].userName}
-          />
-          <UserOutput
-            userName={this.state.useroutputs[1].userName}
-          />
-          <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
-          <Validation
-            textLength={this.state.textContent.length}
-          />
-          {characters}
-        </div>
-      </StyleRoot>
+        <StyledButton alt={this.state.showPeople} onClick={this.togglePeopleHandler}>
+          Toggle People
+          </StyledButton>
+        {people}
+        <UserInput
+          userName={this.state.useroutputs[0].userName}
+          changed={this.userNameChangeHandler}
+        />
+        <UserOutput
+          userName={this.state.useroutputs[0].userName}
+        />
+        <UserOutput
+          userName={this.state.useroutputs[1].userName}
+        />
+        <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
+        <Validation
+          textLength={this.state.textContent.length}
+        />
+        {characters}
+      </div>
+      /* </StyleRoot> */
     );
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'I\'m React App!'));
 
   }
 }
 
-export default Radium(App);
+export default App;
+//export default Radium(App);
