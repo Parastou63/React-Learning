@@ -8,9 +8,10 @@ import Validation from './ListConditionalAssignment/Validation/Validation';
 import Char from './ListConditionalAssignment/Char/Char';
 //import Radium, { StyleRoot } from 'radium';
 import styled from 'styled-components';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 const StyledButton = styled.button`
-background-color: ${props => props.alt ? 'red' : 'green'};
+background-color: ${props => props.toggleColors ? 'red' : 'green'};
 color: white;
 font: inherit;
 border: 1px solid green;
@@ -18,7 +19,7 @@ padding: 8px;
 margin: 8px;
 cursor: pointer;
 &:hover {
-  background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+  background-color: ${props => props.toggleColors ? 'salmon' : 'lightgreen'};
   color: black;
 };
 `;
@@ -51,9 +52,7 @@ class App extends Component {
   //   })
   // }
   nameChangedHandler = (event, id) => {
-    const personIndex = this.state.people.findIndex(p => {
-      return p.id === id;
-    });
+    const personIndex = this.state.people.findIndex(p => p.id === id);
 
     const person = {
       ...this.state.people[personIndex]
@@ -61,15 +60,16 @@ class App extends Component {
     //const person = Object.assign({}, this.state.people[personIndex]);
     person.name = event.target.value;
     const people = [...this.state.people];
-    people[personIndex] = people;
+    people[personIndex] = person;
     this.setState({
-      people: [
-        { name: 'Max', age: Math.floor(Math.random() * 30) },
-        { name: event.target.value, age: Math.floor(Math.random() * 30) },
-        { name: 'Stephanie', age: Math.floor(Math.random() * 30) }
-      ]
-    })
-  }
+      people: people
+      // people: [
+      //   { name: 'Max', age: Math.floor(Math.random() * 30) },
+      //   { name: event.target.value, age: Math.floor(Math.random() * 30) },
+      //   { name: 'Stephanie', age: Math.floor(Math.random() * 30) }
+      // ]
+    });
+  };
 
   userNameChangeHandler = (event) => {
     this.setState({
@@ -133,13 +133,12 @@ class App extends Component {
       people = (
         <div>
           {this.state.people.map((person, index) => {
-            return <Person
+            return <ErrorBoundary key={person.id}><Person
               click={() => this.deletePersonHandler(index)}
               name={person.name}
               age={person.age}
-              key={person.id}
               changed={(event) => this.nameChangedHandler(event, person.id)}
-            />
+            /></ErrorBoundary>
           })}
 
           {/* <Person
@@ -199,7 +198,7 @@ class App extends Component {
         <p className={classes.join(' ')}>This is really working!</p>
         {/* <button style={style}
           onClick={() => { this.switchNameHandler('Maximilian!!') }}>Switch Name</button> */}
-        <StyledButton alt={this.state.showPeople} onClick={this.togglePeopleHandler}>
+        <StyledButton toggleColors={this.state.showPeople} onClick={this.togglePeopleHandler}>
           Toggle People
           </StyledButton>
         {people}
