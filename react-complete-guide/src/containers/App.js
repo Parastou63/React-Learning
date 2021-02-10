@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import Person from './Person/Person';
-import UserInput from './BaseSyntaxAssignment/UserInput/UserInput';
-import UserOutput from './BaseSyntaxAssignment/UserOutput/UserOutput';
-import Validation from './ListConditionalAssignment/Validation/Validation';
-import Char from './ListConditionalAssignment/Char/Char';
+// import classes from './App.css';
+// import Person from './Person/Person';
+// import Person from '../components/People/Person/Person';
+import People from '../components/People/People';
+import Cockpit from '../components/Cockpit/Cockpit';
+import UserInput from '../BaseSyntaxAssignment/UserInput/UserInput';
+import UserOutput from '../BaseSyntaxAssignment/UserOutput/UserOutput';
+import Validation from '../ListConditionalAssignment/Validation/Validation';
+import Char from '../ListConditionalAssignment/Char/Char';
 //import Radium, { StyleRoot } from 'radium';
-import styled from 'styled-components';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+// import styled from 'styled-components';
+// import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-const StyledButton = styled.button`
-background-color: ${props => props.toggleColors ? 'red' : 'green'};
-color: white;
-font: inherit;
-border: 1px solid green;
-padding: 8px;
-margin: 8px;
-cursor: pointer;
-&:hover {
-  background-color: ${props => props.toggleColors ? 'salmon' : 'lightgreen'};
-  color: black;
-};
-`;
+// const StyledButton = styled.button`
+// background-color: ${props => props.toggleColors ? 'red' : 'green'};
+// color: white;
+// font: inherit;
+// border: 1px solid green;
+// padding: 8px;
+// margin: 8px;
+// cursor: pointer;
+// &:hover {
+//   background-color: ${props => props.toggleColors ? 'salmon' : 'lightgreen'};
+//   color: black;
+// };
+// `;
 
 class App extends Component {
   state = {
@@ -130,31 +134,36 @@ class App extends Component {
     let people = null;
 
     if (this.state.showPeople) {
-      people = (
-        <div>
-          {this.state.people.map((person, index) => {
-            return <ErrorBoundary key={person.id}><Person
-              click={() => this.deletePersonHandler(index)}
-              name={person.name}
-              age={person.age}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-            /></ErrorBoundary>
-          })}
+      people =
+        // (
+        //   <div>
+        <People
+          people={this.state.people}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler} />
+      // {/* {this.state.people.map((person, index) => {
+      //   return <ErrorBoundary key={person.id}><Person
+      //     click={() => this.deletePersonHandler(index)}
+      //     name={person.name}
+      //     age={person.age}
+      //     changed={(event) => this.nameChangedHandler(event, person.id)}
+      //   /></ErrorBoundary>
+      // })} */}
 
-          {/* <Person
-            name={this.state.people[0].name}
-            age={this.state.people[0].age} />
-          <Person
-            name={this.state.people[1].name}
-            age={this.state.people[1].age}
-            click={this.switchNameHandler.bind(this, 'Max!')}
-            changed={this.nameChangedHandler}
-          >My Hobbies: Racing</Person>
-          <Person
-            name={this.state.people[2].name}
-            age={this.state.people[2].age} /> */}
-        </div>
-      );
+      // {/* <Person
+      //   name={this.state.people[0].name}
+      //   age={this.state.people[0].age} />
+      // <Person
+      //   name={this.state.people[1].name}
+      //   age={this.state.people[1].age}
+      //   click={this.switchNameHandler.bind(this, 'Max!')}
+      //   changed={this.nameChangedHandler}
+      // >My Hobbies: Racing</Person>
+      // <Person
+      //   name={this.state.people[2].name}
+      //   age={this.state.people[2].age} /> */}
+      //   </div>
+      // );
       // style.backgroundColor = 'red';
       // style[':hover'] = {
       //   backgroundColor: 'salmon',
@@ -163,13 +172,13 @@ class App extends Component {
     }
 
     //let classes = ['red', 'bold'].join(' ');
-    const classes = [];
-    if (this.state.people.length <= 2) {
-      classes.push('red'); // classes = ['red']
-    }
-    if (this.state.people.length <= 1) {
-      classes.push('bold'); // classes = ['red', 'bold']
-    }
+    // const classes = [];
+    // if (this.state.people.length <= 2) {
+    //   classes.push('red'); // classes = ['red']
+    // }
+    // if (this.state.people.length <= 1) {
+    //   classes.push('bold'); // classes = ['red', 'bold']
+    // }
 
     let characters = null;
 
@@ -193,15 +202,24 @@ class App extends Component {
 
     return (
       // <StyleRoot>
-      <div className="App">
-        <h1>Hi, I am a React App.🎈</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
+       <div className="App">
+      {/* <div className={classes.App}> */}
+        {/* <h1>Hi, I am a React App.🎈</h1>
+        <p className={classes.join(' ')}>This is really working!</p> */}
         {/* <button style={style}
           onClick={() => { this.switchNameHandler('Maximilian!!') }}>Switch Name</button> */}
-        <StyledButton toggleColors={this.state.showPeople} onClick={this.togglePeopleHandler}>
+        {/* <StyledButton toggleColors={this.state.showPeople} onClick={this.togglePeopleHandler}>
           Toggle People
-          </StyledButton>
+          </StyledButton> */}
+        {/* {people} */}
+        <Cockpit
+          title={this.props.appTitle}
+          showPeople={this.state.showPeople}
+          people={this.state.people}
+          clicked={this.togglePeopleHandler}
+        />
         {people}
+
         <UserInput
           userName={this.state.useroutputs[0].userName}
           changed={this.userNameChangeHandler}
@@ -212,11 +230,13 @@ class App extends Component {
         <UserOutput
           userName={this.state.useroutputs[1].userName}
         />
+        
         <input type="text" style={textStyle} onChange={this.changeTextHandler} value={this.state.textContent} />
         <Validation
           textLength={this.state.textContent.length}
         />
         {characters}
+
       </div>
       /* </StyleRoot> */
     );
